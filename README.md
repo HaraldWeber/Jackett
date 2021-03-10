@@ -422,6 +422,7 @@ A third-party Golang SDK for Jackett is available from [webtor-io/go-jackett](ht
  * Nebulance (NBL) (TransmiTheNet)
  * NetCosmo
  * NetLab
+ * New Real World [![(invite needed)][inviteneeded]](#)
  * NorBits
  * notwhat.cd
  * oMg[WtF]trackr
