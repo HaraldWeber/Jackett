@@ -6,9 +6,9 @@ language: ro-ro
 type: private
 encoding: windows-1252
 links:
-  - https://datascene.net/
-legacylinks:
   - http://datascene.net/
+legacylinks:
+  - https://datascene.net/
 
 caps:
   categorymappings:
@@ -163,6 +163,8 @@ search:
         "*": 1
     uploadvolumefactor:
       text: 1
+    minimumratio:
+      text: 1.0
     minimumseedtime:
       # 2 days (as seconds = 2 x 24 x 60 x 60)
       text: 172800
