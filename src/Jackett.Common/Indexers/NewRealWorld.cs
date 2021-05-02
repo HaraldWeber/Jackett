@@ -20,8 +20,8 @@ namespace Jackett.Common.Indexers
     [ExcludeFromCodeCoverage]
     public class NewRealWorld : BaseWebIndexer
     {
-        private string LoginUrl => SiteLink + "login.php";
-        private string BrowseUrl => SiteLink + "browse.php";
+        private string LoginUrl => SiteLink + "site/login.php";
+        private string BrowseUrl => SiteLink + "site/torrent_suche.php";
 
         private new ConfigurationDataBasicLoginWithRSSAndDisplay configData
         {
@@ -132,12 +132,12 @@ namespace Jackett.Common.Indexers
 
             var result = await RequestLoginAndFollowRedirect(LoginUrl, pairs, null, true, null, LoginUrl, true);
             await ConfigureIfOK(result.Cookies, result.ContentString != null && result.ContentString.Contains("logout.php"), () =>
-                {
-                    var parser = new HtmlParser();
-                    var dom = parser.ParseDocument(result.ContentString);
-                    var errorMessage = dom.QuerySelector("table.tableinborder").InnerHtml;
-                    throw new ExceptionWithConfigData(errorMessage, configData);
-                });
+            {
+                var parser = new HtmlParser();
+                var dom = parser.ParseDocument(result.ContentString);
+                var errorMessage = dom.QuerySelector("table.tableinborder").InnerHtml;
+                throw new ExceptionWithConfigData(errorMessage, configData);
+            });
             return IndexerConfigurationStatus.RequiresTesting;
         }
 
@@ -192,11 +192,11 @@ namespace Jackett.Common.Indexers
                     if (!query.MatchQueryStringAND(title))
                         continue;
 
-                    var qCatLink = row.QuerySelector("a[href^=\"browse.php?cat=\"]");
-                    var qSeeders = row.QuerySelector("td > table.testtable2 > tbody > tr > td:nth-of-type(2) > strong:nth-of-type(1)");
-                    var qLeechers = row.QuerySelector("td > table.testtable2 > tbody > tr > td:nth-of-type(2) > strong:nth-of-type(2)");
-                    var qDateStr = row.QuerySelector("td > table.testtable2 > tbody > tr > td:nth-of-type(5)");
-                    var qSize = row.QuerySelector("td > table.testtable2 > tbody > tr > td:nth-of-type(1) > strong:nth-of-type(1)");
+                    var qCatLink = row.QuerySelector("a[href^=\"torrent_suche.php?cat=\"]");
+                    var qSeeders = row.QuerySelector("td > table.testtable3 > tbody > tr > td:nth-of-type(2) > strong:nth-of-type(1)");
+                    var qLeechers = row.QuerySelector("td > table.testtable3 > tbody > tr > td:nth-of-type(2) > strong:nth-of-type(2)");
+                    var qDateStr = row.QuerySelector("td > table.testtable3 > tbody > tr > td:nth-of-type(5)");
+                    var qSize = row.QuerySelector("td > table.testtable3 > tbody > tr > td:nth-of-type(1) > strong:nth-of-type(1)");
                     var qDownloadLink = row.QuerySelector("a[href*=\"download\"]");
 
                     var catStr = qCatLink.GetAttribute("href").Split('=')[1];
